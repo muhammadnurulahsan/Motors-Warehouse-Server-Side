@@ -71,24 +71,7 @@ async function run() {
       }
     });
 
-    //Update Quantity By Put
-    app.put("/items/:id", async (req, res) => {
-      const { id } = req.params;
-      const data = req.body;
-      const filter = { _id: ObjectId(id) };
-      const options = { upsert: true };
-      const updateQuantity = {
-        $set: {
-          quantity: data.newQuantity,
-        },
-      };
-      const result = await itemsCollection.updateOne(
-        filter,
-        updateQuantity,
-        options
-      );
-      res.send(result);
-    });
+   
 
     //Get By Id
     app.get("/items/:id", async (req, res) => {
