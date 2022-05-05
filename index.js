@@ -41,15 +41,15 @@ async function run() {
     const itemsCollection = client.db("motorsWarehouse").collection("items");
     console.log("Connected to MongoDB");
 
-    app.post("/login", (req, res) => {
-      const email = req.body;
-      const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "15d",
-      });
-      res.send({ token });
-    });
-
   
+
+    //getting all products
+    app.get("/items", async (req, res) => {
+      const query = {};
+      const cursor = itemsCollection.find(query);
+      const items = await cursor.toArray();
+      res.send(items);
+    });
 
     //getting my products using user email
     app.get("/user", verifyJWT, async (req, res) => {
