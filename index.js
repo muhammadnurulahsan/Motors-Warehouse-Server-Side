@@ -49,15 +49,21 @@ async function run() {
       res.send({ token });
     });
 
-    //getting all products
-    app.get("/items", async (req, res) => {
-      const query = {};
-      const cursor = itemsCollection.find(query);
-      const items = await cursor.toArray();
-      res.send(items);
-    });
-
   
+
+    //getting my products using user email
+    app.get("/user", verifyJWT, async (req, res) => {
+      const decodedEmail = req.decoded.email;
+      const email = req.query.email;
+      if (email === decodedEmail) {
+        const query = { supplierEmail: email };
+        const cursor = itemsCollection.find(query);
+        const items = await cursor.toArray();
+        res.send(items);
+      } else {
+        return res.status(403).send({ message: "Forbidden Access!" });
+      }
+    });
 
     //Update Quantity By Put
     app.put("/items/:id", async (req, res) => {
