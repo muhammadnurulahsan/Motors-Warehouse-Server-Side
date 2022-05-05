@@ -57,21 +57,26 @@ async function run() {
       res.send(items);
     });
 
-    //getting my products using user email
-    app.get("/user", verifyJWT, async (req, res) => {
-      const decodedEmail = req.decoded.email;
-      const email = req.query.email;
-      if (email === decodedEmail) {
-        const query = { supplierEmail: email };
-        const cursor = itemsCollection.find(query);
-        const items = await cursor.toArray();
-        res.send(items);
-      } else {
-        return res.status(403).send({ message: "Forbidden Access!" });
-      }
-    });
+  
 
-   
+    //Update Quantity By Put
+    app.put("/items/:id", async (req, res) => {
+      const { id } = req.params;
+      const data = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateQuantity = {
+        $set: {
+          quantity: data.newQuantity,
+        },
+      };
+      const result = await itemsCollection.updateOne(
+        filter,
+        updateQuantity,
+        options
+      );
+      res.send(result);
+    });
 
     //Get By Id
     app.get("/items/:id", async (req, res) => {
