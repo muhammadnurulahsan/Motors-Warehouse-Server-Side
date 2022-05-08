@@ -4,10 +4,18 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
-
 //Middleware
 app.use(cors());
 app.use(express.json());
+
+function runServer() {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  }
+  );
+}
+runServer();
+
 
 //Root Routes
 app.get("/", (req, res) => {
