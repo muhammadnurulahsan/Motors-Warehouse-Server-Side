@@ -7,7 +7,7 @@ const { MongoClient, ObjectId, ServerApiVersion } = require("mongodb");
 const port = process.env.PORT || 5000;
 
 //Middleware
-app.use(cors());
+app.use(cors({ origin: "https://motors-warehouse.web.app" }));
 app.use(express.json());
 
 //MongoDb Server Link
