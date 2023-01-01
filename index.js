@@ -54,7 +54,7 @@ function verifyJWT(req, res, next) {
 //Main Function
 async function run() {
   try {
-    await client.connect();
+    client.connect();
     const itemsCollection = client.db("motorsWarehouse").collection("items");
     console.log("Connected to MongoDB");
 
